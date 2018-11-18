@@ -13,4 +13,4 @@ func main() {
 func work(s *string) {
 	ss := "bbbbb"
 	s = &ss
-} 
+}
