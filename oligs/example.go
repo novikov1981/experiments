@@ -7,27 +7,28 @@ import (
 )
 
 func main() {
-	voc := []string{"A", "C", "G", "T"}
+	voc := []string{"A", "C", "G", "T"} //Слайс
 
 	var dna string
 
 	fmt.Print("Введите последовательность ДНК: ")
-	fmt.Fscan(os.Stdin, &dna)
+	fmt.Fscan(os.Stdin, &dna) // чтение с консоли
 
-	lenDNA := len(dna)
+	lenDNA := len(dna)           //подсчет колличества символов для строки "dna"
+	dnaU := strings.ToUpper(dna) //Функция библиотеки string делает всю строку в верхнем регистре
 
-	fmt.Printf("Ваша последовательность %s\n", dna)
+	if lenDNA > 1 {
+		measuring(voc, dnaU)
+	}
+
+	fmt.Printf("Ваша последовательность %s\n", dnaU) // %s об\n
 	fmt.Printf("Длинна последовательности %d\n", lenDNA)
 
-	dnaU := strings.ToUpper(dna)
-
-	count := 0
-
-	for _, o := range voc {
-		c := strings.Count(dnaU, o)
-		count += c
-		fmt.Printf("Колличество d%s: %d\n", o, c)
-	}
+	//for _, o := range voc {
+	//	c := strings.Count(dnaU, o)
+	//	count += c
+	//	fmt.Printf("Колличество d%s: %d\n", o, c)
+	//}
 
 	pos := len(dnaU)
 	var rdna string
@@ -39,13 +40,14 @@ func main() {
 			if num == pos {
 				rdna += s
 				pos -= 1
-				if len(rdna) == len(dnaU) {
-					fmt.Println("Oбратная последовательность", rdna)
+				if len(rdna) == len(dnaU) { ////
+					fmt.Printf("Oбратная последовательность %s\n", rdna)
 				}
 			}
 			num += 1
 		}
 	}
+	count := 0
 
 	if lenDNA > count {
 
@@ -74,7 +76,15 @@ func main() {
 	work(b)
 
 }
+func measuring(voc []string, dnaU string) {
+	count := 0
 
+	for _, o := range voc {
+		c := strings.Count(dnaU, string(o))
+		count += c
+		fmt.Printf("Колличество d%s: %d\n", o, c)
+	}
+}
 func work(s string) {
 
 }
