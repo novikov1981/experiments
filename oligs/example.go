@@ -20,8 +20,16 @@ func main() {
 	fmt.Printf("Ваша последовательность %s\n", dnaU) // %s об\n
 	fmt.Printf("Длинна последовательности %d\n", lenDNA)
 
-	measuring(voc, dnaU)
-	revers(dnaU)
+	choice := 0
+
+	fmt.Printf("1 - подсчитать колличество амедитов в последовательности  \n2 - получить обратную последовательность \n ")
+	fmt.Fscan(os.Stdin, &choice)
+	switch choice {
+	case 1:
+		measuring(voc, dnaU)
+	case 2:
+		revers(dnaU)
+	}
 	inadmissible(dnaU, voc)
 
 	b := "aaaa"
