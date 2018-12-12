@@ -17,19 +17,28 @@ func main() {
 	lenDNA := len(dna)           //подсчет колличества символов для строки "dna"
 	dnaU := strings.ToUpper(dna) //Функция библиотеки string делает всю строку в верхнем регистре
 
-	if lenDNA > 1 {
-		measuring(voc, dnaU)
-	}
-
 	fmt.Printf("Ваша последовательность %s\n", dnaU) // %s об\n
 	fmt.Printf("Длинна последовательности %d\n", lenDNA)
 
-	//for _, o := range voc {
-	//	c := strings.Count(dnaU, o)
-	//	count += c
-	//	fmt.Printf("Колличество d%s: %d\n", o, c)
-	//}
+	measuring(voc, dnaU)
+	revers(dnaU)
+	inadmissible(dnaU, voc)
 
+	b := "aaaa"
+
+	work(b)
+
+}
+func measuring(voc []string, dnaU string) { //Функция считает колличество каждого из амедитов в последовательности
+	count := 0
+
+	for _, o := range voc {
+		c := strings.Count(dnaU, string(o))
+		count += c
+		fmt.Printf("Колличество d%s: %d\n", o, c)
+	}
+}
+func revers(dnaU string) { //Функция делает реверсную последовательность
 	pos := len(dnaU)
 	var rdna string
 
@@ -40,14 +49,18 @@ func main() {
 			if num == pos {
 				rdna += s
 				pos -= 1
-				if len(rdna) == len(dnaU) { ////
+				if len(rdna) == len(dnaU) {
 					fmt.Printf("Oбратная последовательность %s\n", rdna)
 				}
 			}
 			num += 1
 		}
 	}
+
+}
+func inadmissible(dnaU string, voc []string) {
 	count := 0
+	lenDNA := len(dnaU)
 
 	if lenDNA > count {
 
@@ -71,20 +84,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	b := "aaaa"
-
-	work(b)
-
 }
-func measuring(voc []string, dnaU string) {
-	count := 0
 
-	for _, o := range voc {
-		c := strings.Count(dnaU, string(o))
-		count += c
-		fmt.Printf("Колличество d%s: %d\n", o, c)
-	}
-}
 func work(s string) {
 
 }
