@@ -1,12 +1,35 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
 
 func main() {
+
+	file, err := os.Open(`F:\path\to\file.txt`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var base [96][5]string
+	i := 0
+	j := 0
+	for scanner.Scan() {
+		base[i][j] = scanner.Text()
+		fmt.Println(base[i][j])
+		i += 1
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
 	voc := []string{"A", "C", "G", "T"} //Слайс
 
 	var dna string
@@ -14,11 +37,9 @@ func main() {
 	fmt.Print("Введите последовательность ДНК: ")
 	fmt.Fscan(os.Stdin, &dna) // чтение с консоли
 
-	lenDNA := len(dna)           //подсчет колличества символов для строки "dna"
 	dnaU := strings.ToUpper(dna) //Функция библиотеки string делает всю строку в верхнем регистре
 
-	fmt.Printf("Ваша последовательность %s\n", dnaU) // %s об\n
-	fmt.Printf("Длинна последовательности %d\n", lenDNA)
+	lening(dnaU)
 
 	choice := 0
 
@@ -37,6 +58,15 @@ func main() {
 	work(b)
 
 }
+
+func lening(dnaU string) { //подсчет колличества символов для строки "dna"
+	lenDNA := len(dnaU)
+
+	fmt.Printf("Ваша последовательность %s\n", dnaU)     // %s выводимая переменная типа string \n новая строка
+	fmt.Printf("Длинна последовательности %d\n", lenDNA) // %d тип данных int
+
+}
+
 func measuring(voc []string, dnaU string) { //Функция считает колличество каждого из амедитов в последовательности
 	count := 0
 
