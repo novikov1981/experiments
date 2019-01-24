@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	file, err := os.Open(`F:\path\to\file.txt`)
+	file, err := os.Open(`F:\path\to\seq162_2018-11-01.txt`)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -21,8 +21,21 @@ func main() {
 	i := 0
 	j := 0
 	for scanner.Scan() {
-		base[i][j] = scanner.Text()
-		fmt.Println(base[i][j])
+		str := scanner.Text()
+		for _, o := range str {
+			stro := string(o)
+			if stro == "," {
+				j += 1
+
+			} else {
+				base[i][j] = base[i][j] + stro
+			}
+		}
+
+		fmt.Printf(" %s ", base[i][0])
+		fmt.Printf(" %s ", base[i][1])
+		fmt.Printf(" %s\n ", base[i][2])
+		j = 0
 		i += 1
 	}
 
