@@ -138,7 +138,7 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 				}
 				count += c
 			}
-			if i == 95 {
+			if i == len(oligs)-1 {
 				fmt.Print("\nКолличество dA:", dA)
 				fmt.Print("\nКолличество dC:", dC)
 				fmt.Print("\nКолличество dG:", dG)
@@ -149,9 +149,23 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 	}
 }
 
+//package main
 //
-//	fmt.Println(time.Now().Format("02-01-2006"))
-//	oligs := readOligsFromFile(`F:\path\to\seq162_2018-11-01.txt`)
+//import (
+//	"bufio"
+//	"database/sql"
+//	"fmt"
+//	//"go/types"
+//	"log"
+//	"os"
+//	"strconv"
+//	"strings"
+//
+//	_ "github.com/mattn/go-sqlite3"
+//)
+//
+//func main() {
+//
 //	file, err := os.Open(`F:\path\to\seq162_2018-11-01.txt`)
 //	if err != nil {
 //		log.Fatal(err)
@@ -164,7 +178,7 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 //	j := 0
 //	for scanner.Scan() {
 //		str := scanner.Text()
-//			for _, o := range str {
+//		for _, o := range str {
 //			stro := string(o)
 //			if stro == "," {
 //				j += 1
@@ -214,84 +228,22 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 //	work(b)
 //
 //}
-
 //
-//func namesinthes() string {
-//	var n string
+//func sqllight() {
 //
-//	fmt.Print("Введите название синтеза: ")
-//	fmt.Fscan(os.Stdin, &n) // чтение с консоли
-//	return n
-//}
-//
-//func sqllight(name string, str string) {
-//
-//	database, err := sqlx.Open("sqlite3", "./synthesis1.db")
-//	if err != nil {
-//		log.Fatal(err)
+//	database, _ := sql.Open("sqlite3", "./nraboy.db")
+//	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT)")
+//	statement.Exec()
+//	statement, _ = database.Prepare("INSERT INTO people (firstname, lastname) VALUES (?, ?)")
+//	statement.Exec("Nic", "Raboy")
+//	rows, _ := database.Query("SELECT id, firstname, lastname FROM people")
+//	var id int
+//	var firstname string
+//	var lastname string
+//	for rows.Next() {
+//		rows.Scan(&id, &firstname, &lastname)
+//		fmt.Println(strconv.Itoa(id) + ": " + firstname + " " + lastname)
 //	}
-//
-//	statement, err := database.Prepare(`
-//CREATE TABLE IF NOT EXISTS synthesis (
-//	uuid TEXT PRIMARY KEY,
-//	name TEXT,
-//	content TEXT,
-//	created_at TEXT
-//);`)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	_, err = statement.Exec()
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	//err = insertSnt(database, Synthesis{"","synthesis cool!","96 rows","date"})
-//	//if err != nil {
-//	//	log.Fatal(err)
-//	//}
-//	err = insertSnt(database, Synthesis{"", name, str, "date 555555"})
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	ss := []Synthesis{}
-//	err = database.Select(&ss, "SELECT uuid, name, content, created_at FROM synthesis;")
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	for _, s := range ss {
-//		fmt.Printf("%+v\n", s)
-//	}
-//}
-//
-//func insertSnt(database *sqlx.DB, snt Synthesis) error {
-//	statement, err := database.Prepare(`
-//	INSERT INTO synthesis (uuid, name, content, created_at) VALUES (?, ?, ?, ?);
-//	`)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	u := genuuid()
-//
-//	//u := uuid.NewV4()
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	_, err = statement.Exec(fmt.Sprintf("%s", u), snt.Name, snt.Content, snt.CreatedAt)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	return err
-//}
-//
-//func genuuid() uuid.UUID {
-//	u := uuid.NewV4()
-//	//if err != nil {
-//	//	log.Fatal(err)
-//	//}
-//	return u
 //}
 //
 //func lening(dnaU string) { //подсчет колличества символов для строки "dna"
