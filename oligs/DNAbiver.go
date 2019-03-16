@@ -34,15 +34,16 @@ func main() {
 
 	printOligs(oligs)
 
-	for i, o := range oligs {
-		var oSeq = ""
-		parts := strings.Split(o, ",")
-		if len(parts) > 1 {
-			oSeq = strings.Split(o, ",")[1]
-		}
-		fmt.Printf("Olig %d, sequence '%s'\n", i, oSeq)
-	}
+	//for i, o := range oligs {
+	//	var oSeq = ""
+	//	parts := strings.Split(o, ",")
+	//	if len(parts) > 1 {
+	//		oSeq = strings.Split(o, ",")[1]
+	//	}
+	//	fmt.Printf("Olig %d, sequence '%s'\n", i, oSeq)
+	//}
 	voc := []string{"A", "C", "G", "T", "R", "Y", "K", "M", "S", "W", "B", "D", "H", "V", "N"}
+	//inadmissible(oligs, voc)
 	measuring(voc, oligs)
 }
 
@@ -74,9 +75,21 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 	for i, o := range oligs {
 		var oSeq = ""
 		parts := strings.Split(o, ",")
-		if len(parts) > 1 {
-			oSeq = strings.Split(o, ",")[1]
-		}
+		//fmt.Println("длинна parts", len(parts))
+
+		if len(parts) == 3 {
+			for _,oSeq=range strings.Split(o, ",") {
+				if oSeq != "" {
+					oSeq = strings.Split(o, ",")[1]
+					} else {
+					fmt.Printf("В строке №%d недостаточно данных:", i+1)
+					os.Exit(1)
+				}
+			}
+		} else {
+			fmt.Printf("В строке №%d недостаточно данных:", i+1)
+			os.Exit(1)
+					}
 
 		dnaU := strings.ToUpper(oSeq)
 		count := 0
@@ -138,6 +151,25 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 				}
 				count += c
 			}
+
+			if count != len(dnaU) {
+				num := 1
+
+				for _, r := range dnaU {
+					count := 0
+					s := string(r)
+					for _, o := range voc {
+						c := strings.Count(s, o)
+						count += c
+					}
+					if count == 0 {
+						fmt.Printf("В строке №%d недопустимый символ №%d: '%s'\n", i+1,num, s)
+						//fmt.Printf("Символ d%s: %d\n", num, s)
+					}
+					num += 1
+				}
+
+			}
 			if i == len(oligs)-1 {
 				fmt.Print("\nКолличество dA:", dA)
 				fmt.Print("\nКолличество dC:", dC)
@@ -148,6 +180,40 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 		}
 	}
 }
+//func inadmissible(oligs []string, voc []string) {
+//	for i, o := range oligs {
+//		var oSeq = ""
+//		parts := strings.Split(o, ",")
+//		if len(parts) > 1 {
+//			oSeq = strings.Split(o, ",")[1]
+//		}
+//		dnaU:=strings.ToUpper(oSeq)
+//		count := 0
+//		lenDNA := len(dnaU)
+//
+//		if lenDNA > count {
+//
+//			num := 1
+//
+//			for _, r := range dnaU {
+//				count := 0
+//				s := string(r)
+//				for _, o := range voc {
+//					c := strings.Count(s, o)
+//					count += c
+//				}
+//				if count == 0 {
+//					//fmt.Printf("В строке №%d недопустимый символ №%d: '%s'\n", i+1,num, s)
+//					//fmt.Printf("Символ d%s: %d\n", num, s)
+//				}
+//				num += 1
+//			}
+//
+//			//fmt.Errorf("ОШИБКА последовательность содержит %d недопустимых символов", lenDNA-count)
+//			//os.Exit(1)
+//		}
+//	}
+//}
 
 //package main
 //

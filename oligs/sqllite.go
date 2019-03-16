@@ -4,131 +4,149 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/satori/go.uuid"
-
-	//"go/types"
 	"log"
 )
 
-//type Synthesis struct {
+type Synthesis struct {
 //these are tags, provide additional information for the field for some library
-//Uuid string `db:"uuid"`
-//Name string `db:"name"`
-//Content string `db:"content"`
-//Size int `db:"size"`
-//CreatedAt string `db:"created_at"`
+Uuid string `db:"uuid"`
+Name string `db:"name"`
+Content string `db:"content"`
+CreatedAt string `db:"created_at"`
+}
+//type Oligs struct {
+//	//these are tags, provide additional information for the field for some library
+//	Uuid     string `db:"uuid"`
+//	Name     string `db:"name"`
+//	Sequence string `db:"sequence"`
 //}
-type Oligs struct {
-	//these are tags, provide additional information for the field for some library
-	Uuid     string `db:"uuid"`
-	Name     string `db:"name"`
-	Sequence string `db:"content"`
-}
-
-func main() {
-	database, err := sqlx.Open("sqlite3", "./synthesis1.db")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	//statement1, err := database.Prepare(`
-	//CREATE TABLE IF NOT EXISTS synthesis (
-	//	uuid TEXT PRIMARY KEY,
-	//	name TEXT,
-	//	content TEXT,
-	//	size INTEGER,
-	//	created_at TEXT
-	//);`)
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//
-	//	_, err = statement1.Exec()
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//
-	//		err = insertSnt1(database, Synthesis{"","synthesis cool!\n","96 rows",0,"date 555555"})
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//
-	//	ss := []Synthesis{}
-	//	err = database.Select(&ss, "SELECT uuid, name, content,size, created_at FROM synthesis;")
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//	for _, s := range ss {
-	//		fmt.Printf("%+v\n", s)
-	//	}
-	statement, err := database.Prepare(`
-CREATE TABLE IF NOT EXISTS oligs (
-	uuid TEXT PRIMARY KEY,
-	name TEXT,
-	sequence TEXT
-);`)
-	if err != nil {
-		log.Fatal(err)
-	}
-	_, err = statement.Exec()
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = insertSnt2(database, Oligs{"", "Olig", "ACGT"})
-	if err != nil {
-		log.Fatal(err)
-	}
-	oo := []Oligs{}
-	err = database.Select(&oo, "SELECT uuid, name, sequence;")
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, o := range oo {
-		fmt.Printf("%+v\n", o)
-	}
-
-}
-
-//func insertSnt1(database *sqlx.DB, snt Synthesis) error {
-//	statement1, err := database.Prepare(`
-//	INSERT INTO synthesis (uuid, name, content,size, created_at) VALUES (?, ?, ?, ?, ?);
-//	`)
-//	if err != nil {
-//		log.Fatal(err)
+//
+//func main() {
+//
+//		database, err := sqlx.Open("sqlite3", "./synthesis1.db")
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//
+//		statement, err := database.Prepare(`
+//	CREATE TABLE IF NOT EXISTS oligs (
+//		uuid TEXT PRIMARY KEY,
+//		name TEXT,
+//		sequence TEXT
+//			);`)
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//
+//		_, err = statement.Exec() //здесь два возвращаемых аргумента _, err узнать по подробнее
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//
+//		err = insertSnt(database, Oligs{"","synthesis cool!","96 rows"})
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//
+//
+//		ss := []Oligs{}
+//		err = database.Select(&ss, "SELECT uuid, name, sequence FROM oligs;")
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//		for _, s := range ss {
+//			fmt.Printf("%+v\n", s)// +v идет форматирование в соответствии со всеми имеющимися типами данных?
+//		}
 //	}
-//	u := genuuid()
-//	u := uuid.NewV4()
-//if err != nil {
-//	log.Fatal(err)
-//}
-//_, err = statement1.Exec(fmt.Sprintf("%s", u), snt.Name, snt.Content, snt.Size, snt.CreatedAt)
-//if err != nil {
-//	log.Fatal(err)
-//}
-//return err
-//}
-func insertSnt2(database *sqlx.DB, snt Oligs) error {
+//
+//	func insertSnt(database *sqlx.DB, snt Oligs) error {//не понятно использование типа error для ввода данных в таблицу?
+//		statement, err := database.Prepare(`
+//		INSERT INTO oligs (uuid, name, sequence) VALUES (?, ?, ?);
+//		`)
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//		u := genuuid() //я генирирую uuid прямо в функции это не удобно, потому что у нас две таблицы, а uuid должен быть?
+//
+//		//u := uuid.NewV4()
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//		_, err = statement.Exec(fmt.Sprintf("%s", u), snt.Name, snt.Sequence)
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//		return err
+//	}
+
+
+func main()  {
+
+database, err := sqlx.Open("sqlite3", "./synthesis.db")
+if err != nil {
+log.Fatal(err)
+}
+
+statement, err := database.Prepare(`
+	CREATE TABLE IF NOT EXISTS synthesis (
+		uuid TEXT PRIMARY KEY,
+		name TEXT,
+		content TEXT,
+		created_at TEXT
+	);`)
+if err != nil {
+log.Fatal(err)
+}
+
+_, err = statement.Exec() //здесь два возвращаемых аргумента _, err узнать по подробнее
+if err != nil {
+log.Fatal(err)
+}
+
+err = insertSnt(database, Synthesis{"","synthesis cool!","96 rows","date"})
+if err != nil {
+log.Fatal(err)
+}
+
+
+ss := []Synthesis{}
+err = database.Select(&ss, "SELECT uuid, name, content, created_at FROM synthesis;")
+if err != nil {
+log.Fatal(err)
+}
+for _, s := range ss {
+fmt.Printf("%+v\n", s)// +v идет форматирование в соответствии со всеми имеющимися типами данных?
+}
+	err = database.Select(&ss, "SELECT FROM uuid, name, content, created_at WHERE content LIKE '%96%'")
+	if err != nil {
+		log.Fatal(err)
+			}
+	fmt.Println(err)
+	}
+
+func insertSnt(database *sqlx.DB, snt Synthesis) error {//не понятно использование типа error для ввода данных в таблицу?
 	statement, err := database.Prepare(`
-	INSERT INTO oligs (uuid, name, sequence) VALUES (?, ?, ?);
-	`)
+		INSERT INTO synthesis (uuid, name, content, created_at) VALUES (?, ?, ?, ?);
+		`)
 	if err != nil {
 		log.Fatal(err)
 	}
-	u := genuuid()
-	//	u := uuid.NewV4()
+	u := genuuid() //я генирирую uuid прямо в функции это не удобно, потому что у нас две таблицы, а uuid должен быть?
+
+	//u := uuid.NewV4()
 	if err != nil {
 		log.Fatal(err)
 	}
-	_, err = statement.Exec(fmt.Sprintf("%s", u), snt.Name, snt.Sequence)
+	_, err = statement.Exec(fmt.Sprintf("%s", u), snt.Name, snt.Content, snt.CreatedAt)
 	if err != nil {
 		log.Fatal(err)
 	}
 	return err
 }
-func genuuid() uuid.UUID {
-	u := uuid.NewV4()
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	return u
-}
+	func genuuid() uuid.UUID {
+		u := uuid.NewV4()
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
+		return u
+	}

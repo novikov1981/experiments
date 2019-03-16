@@ -43,6 +43,7 @@ func main() {
 		fmt.Printf("Olig %d, sequence '%s'\n", i, oSeq)
 	}
 	voc := []string{"A", "C", "G", "T", "R", "Y", "K", "M", "S", "W", "B", "D", "H", "V", "N"}
+	inadmissible(oligs, voc)
 	measuring(voc, oligs)
 }
 
@@ -148,6 +149,41 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 		}
 	}
 }
+func inadmissible(oligs []string, voc []string) {
+	for i, o := range oligs {
+		var oSeq = ""
+		parts := strings.Split(o, ",")
+		if len(parts) > 1 {
+			oSeq = strings.Split(o, ",")[1]
+		}
+		dnaU:=strings.ToUpper(oSeq)
+	count := 0
+lenDNA := len(dnaU)
+
+if lenDNA > count {
+
+num := 1
+
+for _, r := range dnaU {
+count := 0
+s := string(r)
+for _, o := range voc {
+c := strings.Count(s, o)
+count += c
+}
+if count == 0 {
+fmt.Printf("В строке №%d недопустимый символ №%d: %s\n", i+1,num, s)
+//fmt.Printf("Символ d%s: %d\n", num, s)
+}
+num += 1
+}
+
+//fmt.Errorf("ОШИБКА последовательность содержит %d недопустимых символов", lenDNA-count)
+//os.Exit(1)
+}
+}
+}
+
 
 //
 //	fmt.Println(time.Now().Format("02-01-2006"))
