@@ -2,8 +2,7 @@ package sqllite
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/novikov1981/experiments/repository"
-	"log"
+	"github.com/novikov1981/experiments"
 )
 
 type Repository struct {
@@ -11,8 +10,7 @@ type Repository struct {
 }
 
 func NewRepository(dbPath string) (*Repository, error) {
-	// TODO check if file sqlLiteFile exists
-	dbFileExist := checkFunction(dbPath)
+	dbFileExist := checkFileExists(dbPath)
 	// connect db
 	database, err := sqlx.Open("sqlite3", dbPath)
 	if err != nil {
@@ -27,6 +25,11 @@ func NewRepository(dbPath string) (*Repository, error) {
 		}
 	}
 	return &Repository{database}, nil
+}
+
+func checkFileExists(filePath string) bool {
+	// TODO check if the file exists in filesystem
+	return true
 }
 
 func (r *Repository) create() error {
@@ -66,16 +69,16 @@ func (r *Repository) create() error {
 }
 
 func (r *Repository) InsertSynthesis(name string, scale int64, oo []string) error {
-	createdAt := .....
+	//createdAt := ....
 	// INSERT to synthesis
-	for _, o := range oo {
-		oligUUID := generate()
-		// INSER to olig
-	}
+	//for _, o := range oo {
+	//	oligUUID := generate()
+	//	// INSER to olig
+	//}
 	//
 	return nil
 }
 
-func (r *Repository) FindSynthesis(pattern string) ([]repository.Synthesis, error) {
+func (r *Repository) FindSynthesis(pattern string) ([]experiments.Synthesis, error) {
 	return nil, nil
 }

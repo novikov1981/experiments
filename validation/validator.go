@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"strings"
-}
+)
+
 type Validator struct {
 }
 
@@ -12,12 +13,13 @@ func NewValidator() (*Validator, error) {
 	return &Validator{}, nil
 }
 
-func (r *Validator) Validate(oo []string) error {// Для ошибки НЕВЕРНОЕ СОДЕРЖАНИЕ указыается № строки, игнор ошибки не возможен
-	for i, o := range oo {                       // Для оибки НЕДОПУСТИМЫЙ СИМВОЛ указывается № строки, №символа и возможен игнор
+func (r *Validator) Validate(oo []string) error { // Для ошибки НЕВЕРНОЕ СОДЕРЖАНИЕ указыается № строки, игнор ошибки не возможен
+	for i, o := range oo { // Для оибки НЕДОПУСТИМЫЙ СИМВОЛ указывается № строки, №символа и возможен игнор
 		if err := r.ValidateOne(o); err != nil {
 			return errors.Wrap(err, "olig "+string(i))
 		}
 	}
+	return nil
 }
 
 func (r *Validator) ValidateOne(o string) error {
@@ -42,18 +44,18 @@ func (r *Validator) ValidateOne(o string) error {
 	dnaU := strings.ToUpper(o)
 	num := 1
 	voc := []string{"A", "C", "G", "T", "R", "Y", "K", "M", "S", "W", "B", "D", "H", "V", "N"} // voc - слайс содержащий допустимые симолы он может быть константой и он используется в нескольких функциях
-		for _, r := range dnaU {
-			count := 0
-			s := string(r)
-			for _, o := range voc { // voc - слайс содержащий допустимые симолы он может быть константой и он используется в нескольких функциях
-				c := strings.Count(s, o)
-				count += c
-			}
-			if count == 0 {
-				// В этом месте должна быть ошибка НЕДОПУСТИМЫЙ СИМВОЛ с указанием недопустимого символа, его номера в последовательности
-			}
-			num += 1
+	for _, r := range dnaU {
+		count := 0
+		s := string(r)
+		for _, o := range voc { // voc - слайс содержащий допустимые симолы он может быть константой и он используется в нескольких функциях
+			c := strings.Count(s, o)
+			count += c
 		}
+		if count == 0 {
+			// В этом месте должна быть ошибка НЕДОПУСТИМЫЙ СИМВОЛ с указанием недопустимого символа, его номера в последовательности
+		}
+		num += 1
+	}
 
 	//
 	return fmt.Errorf("incorrect content for olig %s", o)
@@ -64,8 +66,9 @@ func (r *Validator) Measure(oo []string, ignoreMode bool) (dA, dC, dG, dT float3
 		if err := r.Validate(oo); err != nil {
 
 			var dA, dC, dG, dT float32 = 0, 0, 0, 0
+			voc := []string{"A", "C", "G", "T", "R", "Y", "K", "M", "S", "W", "B", "D", "H", "V", "N"}
 			for _, o := range oo {
-				var oSeq= ""
+				var oSeq = ""
 				oSeq = strings.Split(o, ",")[1]
 
 				dnaU := strings.ToUpper(oSeq)
@@ -137,4 +140,5 @@ func (r *Validator) Measure(oo []string, ignoreMode bool) (dA, dC, dG, dT float3
 		///
 		return 0, 0, 0, 0, nil
 	}
+	return 0, 0, 0, 0, nil
 }

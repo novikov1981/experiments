@@ -8,12 +8,13 @@ import (
 )
 
 type Synthesis struct {
-//these are tags, provide additional information for the field for some library
-Uuid string `db:"uuid"`
-Name string `db:"name"`
-Content string `db:"content"`
-CreatedAt string `db:"created_at"`
+	//these are tags, provide additional information for the field for some library
+	Uuid      string `db:"uuid"`
+	Name      string `db:"name"`
+	Content   string `db:"content"`
+	CreatedAt string `db:"created_at"`
 }
+
 //type Oligs struct {
 //	//these are tags, provide additional information for the field for some library
 //	Uuid     string `db:"uuid"`
@@ -79,52 +80,50 @@ CreatedAt string `db:"created_at"`
 //		return err
 //	}
 
+func main() {
 
-func main()  {
+	database, err := sqlx.Open("sqlite3", "./synthesis.db")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-database, err := sqlx.Open("sqlite3", "./synthesis.db")
-if err != nil {
-log.Fatal(err)
-}
-
-statement, err := database.Prepare(`
+	statement, err := database.Prepare(`
 	CREATE TABLE IF NOT EXISTS synthesis (
 		uuid TEXT PRIMARY KEY,
 		name TEXT,
 		content TEXT,
 		created_at TEXT
 	);`)
-if err != nil {
-log.Fatal(err)
-}
+	if err != nil {
+		log.Fatal(err)
+	}
 
-_, err = statement.Exec() //здесь два возвращаемых аргумента _, err узнать по подробнее
-if err != nil {
-log.Fatal(err)
-}
+	_, err = statement.Exec() //здесь два возвращаемых аргумента _, err узнать по подробнее
+	if err != nil {
+		log.Fatal(err)
+	}
 
-err = insertSnt(database, Synthesis{"","synthesis cool!","96 rows","date"})
-if err != nil {
-log.Fatal(err)
-}
+	err = insertSnt(database, Synthesis{"", "synthesis cool!", "96 rows", "date"})
+	if err != nil {
+		log.Fatal(err)
+	}
 
-
-ss := []Synthesis{}
-err = database.Select(&ss, "SELECT uuid, name, content, created_at FROM synthesis;")
-if err != nil {
-log.Fatal(err)
-}
-for _, s := range ss {
-fmt.Printf("%+v\n", s)// +v идет форматирование в соответствии со всеми имеющимися типами данных?
-}
+	ss := []Synthesis{}
+	err = database.Select(&ss, "SELECT uuid, name, content, created_at FROM synthesis;")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, s := range ss {
+		fmt.Printf("%+v\n", s) // +v идет форматирование в соответствии со всеми имеющимися типами данных?
+	}
 	err = database.Select(&ss, "SELECT FROM uuid, name, content, created_at WHERE content LIKE '%96%'")
 	if err != nil {
 		log.Fatal(err)
-			}
-	fmt.Println(err)
 	}
+	fmt.Println(err)
+}
 
-func insertSnt(database *sqlx.DB, snt Synthesis) error {//не понятно использование типа error для ввода данных в таблицу?
+func insertSnt(database *sqlx.DB, snt Synthesis) error { //не понятно использование типа error для ввода данных в таблицу?
 	statement, err := database.Prepare(`
 		INSERT INTO synthesis (uuid, name, content, created_at) VALUES (?, ?, ?, ?);
 		`)
@@ -143,10 +142,10 @@ func insertSnt(database *sqlx.DB, snt Synthesis) error {//не понятно и
 	}
 	return err
 }
-	func genuuid() uuid.UUID {
-		u := uuid.NewV4()
-		//if err != nil {
-		//	log.Fatal(err)
-		//}
-		return u
-	}
+func genuuid() uuid.UUID {
+	u := uuid.NewV4()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	return u
+}

@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/novikov1981/experiments/repository"
+	"github.com/novikov1981/experiments"
 	"github.com/novikov1981/experiments/repository/sqllite"
 	"github.com/novikov1981/experiments/validation"
 	"golang.org/x/text/encoding/charmap"
@@ -14,10 +14,10 @@ import (
 )
 
 const (
-	sqlLiteFile = "./synthesis.db"
+	sqlLiteFile  = "./synthesis.db"
 	validateMode = "validate"
-	saveMode = "save"
-	searchMode = "search"
+	saveMode     = "save"
+	searchMode   = "search"
 )
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 	}
 
 	switch *mode {
-	case "validate" :
+	case "validate":
 		oligs, err := readOligsFromFile(*filePath)
 		if err != nil {
 			log.Fatal(err)
@@ -52,7 +52,7 @@ func main() {
 		if err = validator.Validate(oligs); err != nil {
 			log.Printf("Validation finished with error: %s\n", err.Error())
 		}
-	case "save" :
+	case "save":
 		oligs, err := readOligsFromFile(*filePath)
 		if err != nil {
 			log.Fatal(err)
@@ -63,12 +63,12 @@ func main() {
 			log.Printf("Validation finished with error: %s. ATTENTION, cannot save the oligs!\n", err.Error())
 			return
 		}
-		err = repo.InsertSynthesis(*synthesisName,*synthesisScale,oligs)
+		err = repo.InsertSynthesis(*synthesisName, *synthesisScale, oligs)
 		if err != nil {
 			log.Fatal(err)
 		}
 		log.Printf("Synthesis %s saved with success.", *synthesisName)
-	case "search" :
+	case "search":
 		foundSynthesis, err := repo.FindSynthesis(*oligPattern)
 		if err != nil {
 			log.Fatal(err)
@@ -100,7 +100,7 @@ func printOligs(oo []string) {
 	}
 }
 
-func printSynthesis(ss []repository.Synthesis) {
+func printSynthesis(ss []experiments.Synthesis) {
 	for _, s := range ss {
 		fmt.Printf("Synthes %+v\n", s)
 	}

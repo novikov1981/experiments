@@ -78,10 +78,10 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 		//fmt.Println("длинна parts", len(parts))
 
 		if len(parts) == 3 {
-			for _,oSeq=range strings.Split(o, ",") {
+			for _, oSeq = range strings.Split(o, ",") {
 				if oSeq != "" {
 					oSeq = strings.Split(o, ",")[1]
-					} else {
+				} else {
 					fmt.Printf("В строке №%d недостаточно данных:", i+1)
 					os.Exit(1)
 				}
@@ -89,7 +89,7 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 		} else {
 			fmt.Printf("В строке №%d недостаточно данных:", i+1)
 			os.Exit(1)
-					}
+		}
 
 		dnaU := strings.ToUpper(oSeq)
 		count := 0
@@ -163,7 +163,7 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 						count += c
 					}
 					if count == 0 {
-						fmt.Printf("В строке №%d недопустимый символ №%d: '%s'\n", i+1,num, s)
+						fmt.Printf("В строке №%d недопустимый символ №%d: '%s'\n", i+1, num, s)
 						//fmt.Printf("Символ d%s: %d\n", num, s)
 					}
 					num += 1
@@ -180,6 +180,7 @@ func measuring(voc []string, oligs []string) { //Функция считает �
 		}
 	}
 }
+
 //func inadmissible(oligs []string, voc []string) {
 //	for i, o := range oligs {
 //		var oSeq = ""
